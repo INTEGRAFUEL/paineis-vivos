@@ -52,7 +52,7 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
 <script>const SB_URL='https://nwcixkllbxmetfcozkwb.supabase.co',SB_KEY='sb_publishable_kZ8Rmo4zBi0undvEfe5GGQ_mAbFdk4B',OWNER='dd3e1b45-230a-48aa-8d7d-01df7cfe9d0a';
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'paineis-vivos-auth'}});
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const QS=new URLSearchParams(location.search),DEMO=QS.get('demo');if(DEMO&&QS.get('olho'))localStorage.setItem('pv-olho',QS.get('olho'));
+const QS=new URLSearchParams(location.search),DEMO=null;if(DEMO&&QS.get('olho'))localStorage.setItem('pv-olho',QS.get('olho'));
 let S={},last=null,oculto=localStorage.getItem('pv-olho')==='1',timer=null,poll=null;
 const nf=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const R=v=>(v<0?'-':'')+'R$ '+nf.format(Math.abs(v)),M=v=>oculto?'R$ •••••':R(v),Mr=v=>oculto?'R$ •••••':R(v).replace(/,00$/,'');
