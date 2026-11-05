@@ -30,6 +30,18 @@ main{padding:4px 12px}
 #login button.pri{width:100%;margin-top:12px;background:#d4af37;color:#0a1840;border:0;border-radius:10px;padding:12px;font:inherit;font-weight:700;font-size:15px}
 #login a{color:#7cc4ff;font-size:13px}.m{color:#9eb3dd;font-size:13px;min-height:18px;margin-top:8px}
 dialog{background:#0a1840;color:#e8ecf8;border:1px solid #d4af37aa;border-radius:16px;width:min(560px,96vw);max-height:86vh;overflow:auto;padding:14px}dialog::backdrop{background:#000b}
+
+/* cores sólidas por painel; texto único azul-marinho #0a1433 (contraste WCAG ≥ 6,8:1 nos 4 fundos) */
+.c-rv{background:#3ecf6e}.c-fo{background:#4aa3ff}.c-de{background:#ff9a3c}.c-ma{background:#ffd23f}
+.card.c-rv,.card.c-fo,.card.c-de,.card.c-ma{border:2px solid #0a143355;box-shadow:0 6px 22px #0008}
+.card[class*=" c-"] *{color:#0a1433!important;text-shadow:none!important}
+.card[class*=" c-"] .box{background:#ffffff40;border-color:#0a143340}
+.card[class*=" c-"] .badge,.card[class*=" c-"] .more{border-color:#0a1433}
+.card[class*=" c-"] .list{border-top-color:#0a143355}.card[class*=" c-"] .it{border-bottom-color:#0a143322}
+.card[class*=" c-"] .mut,.card[class*=" c-"] .lbl,.card[class*=" c-"] .foot,.card[class*=" c-"] .ct .r{font-weight:600}
+.card[class*=" c-"] .pill{background:#ff8c00;border:2px solid #0a1433}
+.card[class*=" c-"] .chip{display:inline-block;background:#0a1433;border-radius:8px;padding:1px 7px;font-weight:700}
+.card[class*=" c-"] .chip.ch-l{color:#ffb35c!important}.card[class*=" c-"] .chip.ch-p{color:#8fd0ff!important}
 </style></head><body>
 <div id="login" hidden><img src="icon-192.png" alt=""><h1 style="margin-top:14px;font-size:18px">PAINÉIS VIVOS</h1><div class="mut">IN´TEGRA · espelho dos painéis do PC</div>
 <form id="lf"><p class="lbl" style="margin-top:18px">Código de acesso (o mesmo do COMANDO IMPLACÁVEL)</p><input id="lc" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" maxlength="12" required><button class="pri">Entrar</button><div id="lmsg" class="m"></div></form>
@@ -105,21 +117,21 @@ const rRow=i=>`<div class="it"><span class="d ${i.diff<0?'late':''}">${esc(i.lbl
 const dRow=i=>`<div class="it"><span class="d">${esc(i.dia)}</span><span class="c">${esc(i.benef)}</span><span class="t">${esc(i.dias)}</span><span class="v num">${M(i.valor)}</span></div>`;
 const mRow=c=>`<div class="it it4"><span class="d ${c.atrasado?'late':''}">${esc(c.dia)}</span><span class="c ${c.urgente?'urg':''}">${c.urgente?'! ':''}${esc(c.nome)}</span><span class="t">${esc(c.cidade)}</span><span class="${c.status==='Aberto'?'st-Aberto':c.status==='Agendado'?'st-Agendado':'st-Exec'}">${esc(c.status)}</span></div>`;
 function render(){$('#olho').textContent=oculto?'🙈':'👁';const h=[];const r=S.relentless,f=S.fortress,d=S.despesas,m=S.manutencoes;
- if(r){const up=r.resultado>=0;h.push(`<section class="card"><div class="ct">RELENTLESS VISION<span class="r">resultado de ${r.ano}</span></div>
+ if(r){const up=r.resultado>=0;h.push(`<section class="card c-rv"><div class="ct">RELENTLESS VISION<span class="r">resultado de ${r.ano}</span></div>
   <div class="big num" id="rvS"></div><div class="g3"><div class="box"><div class="lbl">receitas ${r.ano}</div><div class="num lb" id="rvR"></div></div><div class="box"><div class="lbl">despesas ${r.ano}</div><div class="num org" id="rvD"></div></div><div class="box"><div class="lbl">mês ${up?'▲':'▼'}</div><div class="num ${up?'blue':'org'}" id="rvM"></div></div></div>
   <div class="foot">de ${M(r.resultado)} no mês · a pagar no mês ${M(r.apagar)}${r.cd_n?` · IN'TEGRA DESPESAS: ${M(r.cd_w3)} em 3 dias`:''}</div></section>`)}
- if(f){h.push(`<section class="card"><div class="ct">IN´TEGRA FORTRESS<span class="r">${f.em3_n?`<span class="badge">${f.em3_n} em 3 dias</span>`:''}</span></div>
+ if(f){h.push(`<section class="card c-fo"><div class="ct">IN´TEGRA FORTRESS<span class="r">${f.em3_n?`<span class="badge">${f.em3_n} em 3 dias</span>`:''}</span></div>
   <div class="ct" style="margin-top:8px;font-size:13px">RELENTLESS <span class="mut" style="letter-spacing:0;font-weight:400">falta para o objetivo · até 31/12</span></div>
   <div class="g2" style="margin-top:4px"><div><div class="mid num" id="fFalta"></div><div class="num" id="fRitmo" style="font-size:12px"></div></div><div style="text-align:right"><div class="mid num gold" id="fTempo"></div></div></div>
   <div style="display:flex;align-items:flex-end;gap:10px;margin-top:10px"><div style="flex:1"><div class="lbl">A RECEBER</div><div class="num lb" style="font-size:20px;font-weight:700" id="fRec"></div><div class="mut">Santander: ${M(f.santander)} · C6/P2B: ${M(f.c6)}</div></div>
   <button class="pill" onclick="verProps()"><span class="n">PROPOSTAS ${f.propostas_n}</span><span class="v num">${Mr(f.propostas_v)}</span></button></div>
   <div class="list">${lista(f.lista,rRow,5)}</div><div class="foot">Já entrou no mês: ${M(f.entrou_mes)} · Vencidos: ${M(f.vencidos_v)} (${f.vencidos_n}) · Receitas a receber: ${M(f.receitas_a_receber)}</div></section>`)}
- if(d){h.push(`<section class="card"><div class="ct">IN'TEGRA DESPESAS<span class="r">${d.em3_n?`<span class="badge">${d.em3_n} em 3 dias</span>`:''}</span></div>
+ if(d){h.push(`<section class="card c-de"><div class="ct">IN'TEGRA DESPESAS<span class="r">${d.em3_n?`<span class="badge">${d.em3_n} em 3 dias</span>`:''}</span></div>
   <div class="g2"><div><div class="lbl">PROVISIONADO EM ${esc(d.mes_nome)}</div><div class="mid num gold" id="dProv"></div><div class="mut">do mês ${M(d.mes_total)} · ${d.mes_n} itens</div></div>
   <div style="text-align:right"><div class="lbl">A PAGAR EM 3 DIAS</div><div class="mid num org">${M(d.em3_v)}</div></div></div>
   <div class="mut" style="margin-top:6px">a vencer: ${d.avencer_n} · ${M(d.avencer_v)}${d.acima1500_n?` · ${d.acima1500_n} acima de R$ 1.500`:''}${d.atrasadas_n?` · atrasadas: ${d.atrasadas_n}`:''}</div>
   <div class="list">${lista(d.lista,dRow,5)}</div></section>`)}
- if(m){h.push(`<section class="card"><div class="ct">MANUTENÇÕES IN'TEGRA</div>
+ if(m){h.push(`<section class="card c-ma"><div class="ct">MANUTENÇÕES IN'TEGRA</div>
   <div class="g3"><div class="box"><div class="lbl">abertos</div><div class="mid lb">${m.abertos}</div></div><div class="box"><div class="lbl">agendados</div><div class="mid gold">${m.agendados}</div></div><div class="box"><div class="lbl">em execução</div><div class="mid org">${m.execucao}</div></div></div>
   <div class="g2"><div class="box"><div class="lbl">relatórios em ${esc(m.rel_mes)}</div><div class="mid gold">${m.relatorios_n}</div></div><div class="box"><div class="lbl">faturado</div><div class="mid num gold" style="font-size:18px">${M(m.faturado)}</div></div></div>
   <div class="list">${lista(m.pendentes,mRow,6)}</div></section>`)}
@@ -130,7 +142,7 @@ function tick(){$('#upd').textContent=updTxt();staleWarn();const r=S.relentless,
   if(!f.objetivo_definido){ff.className='num mut';ff.textContent='Defina o objetivo nas Configurações do PC'}
   else if(f.falta<=0){ff.className='mid num gold';ff.textContent='OBJETIVO ALCANÇADO'}
   else{ff.className='mid num blue';ff.textContent=oculto?'R$ •••••':R(f.falta);const g=ritmoGap(f);
-   if(g!==null){const atras=g>0,val=oculto?'R$ •••••':'R$ '+nf4.format(Math.abs(g));fr.innerHTML=`<span class="${atras?'org':'blue'}">${atras?'▲':'▼'} ${val}</span> <span class="mut">${atras?'mais longe • atrás do ritmo':'mais perto • à frente do ritmo'}</span>`}}
+   if(g!==null){const atras=g>0,val=oculto?'R$ •••••':'R$ '+nf4.format(Math.abs(g));fr.innerHTML=`<span class="chip ${atras?'ch-l':'ch-p'}">${atras?'▲':'▼'} ${val}</span> <span class="mut">${atras?'mais longe • atrás do ritmo':'mais perto • à frente do ritmo'}</span>`}}
   $('#fRec').textContent=M(f.a_receber)}
  if(d){$('#dProv').innerHTML=L(provVal(d))}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
